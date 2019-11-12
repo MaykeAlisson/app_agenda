@@ -4,7 +4,6 @@ import 'package:agenda_app/helpers/contact_helper.dart';
 import 'package:flutter/material.dart';
 
 class ContactPage extends StatefulWidget {
-
   final Contact contact;
 
   ContactPage({this.contact});
@@ -14,7 +13,6 @@ class ContactPage extends StatefulWidget {
 }
 
 class _ContactPageState extends State<ContactPage> {
-
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
@@ -29,9 +27,9 @@ class _ContactPageState extends State<ContactPage> {
   void initState() {
     super.initState();
 
-    if(widget.contact == null){
+    if (widget.contact == null) {
       _editedContact = Contact();
-    }else{
+    } else {
       _editedContact = Contact.fromMap((widget.contact.toMap()));
 
       _nameController.text = _editedContact.name;
@@ -39,7 +37,6 @@ class _ContactPageState extends State<ContactPage> {
       _phoneController.text = _editedContact.phone;
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -52,10 +49,10 @@ class _ContactPageState extends State<ContactPage> {
           centerTitle: true,
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: (){
-            if(_editedContact.name != null && _editedContact.name.isNotEmpty){
+          onPressed: () {
+            if (_editedContact.name != null && _editedContact.name.isNotEmpty) {
               Navigator.pop(context, _editedContact);
-            }else{
+            } else {
               FocusScope.of(context).requestFocus(_nameFocus);
             }
           },
@@ -67,7 +64,7 @@ class _ContactPageState extends State<ContactPage> {
           child: Column(
             children: <Widget>[
               GestureDetector(
-                child:  Container(
+                child: Container(
                   width: 140.0,
                   height: 140.0,
                   decoration: BoxDecoration(
@@ -83,7 +80,7 @@ class _ContactPageState extends State<ContactPage> {
                 decoration: InputDecoration(labelText: "Nome"),
                 controller: _nameController,
                 focusNode: _nameFocus,
-                onChanged: (text){
+                onChanged: (text) {
                   _userEdited = true;
                   setState(() {
                     _editedContact.name = text;
@@ -93,7 +90,7 @@ class _ContactPageState extends State<ContactPage> {
               TextField(
                 decoration: InputDecoration(labelText: "Email"),
                 controller: _emailController,
-                onChanged: (text){
+                onChanged: (text) {
                   _userEdited = true;
                   _editedContact.email = text;
                 },
@@ -102,7 +99,7 @@ class _ContactPageState extends State<ContactPage> {
               TextField(
                 decoration: InputDecoration(labelText: "Phone"),
                 controller: _phoneController,
-                onChanged: (text){
+                onChanged: (text) {
                   _userEdited = true;
                   _editedContact.phone = text;
                 },
@@ -115,35 +112,34 @@ class _ContactPageState extends State<ContactPage> {
     );
   }
 
-  Future<bool> _requestPop(){
-    if(_userEdited){
-      showDialog(context: context,
-      builder: (context){
-        return AlertDialog(
-          title: Text("Descartar Alterações?"),
-          content: Text("Se sair as alterações serão perdidas."),
-          actions: <Widget>[
-            FlatButton(
-              child: Text("Cancelar"),
-              onPressed: (){
-                Navigator.pop(context);
-              },
-            ),
-            FlatButton(
-              child: Text("Sim"),
-              onPressed: (){
-                Navigator.pop(context);
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        );
-      }
-      );
-      return Future.value(true);
-    }else{
+  Future<bool> _requestPop() {
+    if (_userEdited) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text("Descartar Alterações?"),
+              content: Text("Se sair as alterações serão perdidas."),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text("Cancelar"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                FlatButton(
+                  child: Text("Sim"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            );
+          });
       return Future.value(false);
+    } else {
+      return Future.value(true);
     }
   }
-
 }
